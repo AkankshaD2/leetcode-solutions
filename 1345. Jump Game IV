@@ -1,0 +1,35 @@
+from collections import defaultdict, deque
+
+class Solution:
+    def minJumps(self, arr):
+
+        n = len(arr)
+
+        graph = defaultdict(list)
+
+        for i, num in enumerate(arr):
+            graph[num].append(i)
+
+        q = deque([0])
+        visited = {0}
+        steps = 0
+
+        while q:
+
+            for _ in range(len(q)):
+
+                i = q.popleft()
+
+                if i == n - 1:
+                    return steps
+
+                for nei in graph[arr[i]] + [i - 1, i + 1]:
+
+                    if 0 <= nei < n and nei not in visited:
+
+                        visited.add(nei)
+                        q.append(nei)
+
+                graph[arr[i]]=[]
+
+            steps += 1
